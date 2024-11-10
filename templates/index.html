@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Top Colors Finder</title>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: 'Roboto', sans-serif;
+		}
+
+		body {
+			background-color: #f3f4f6;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100vh;
+			padding: 20px;
+		}
+
+		.card {
+			width: 70%;
+			max-width: 600px;
+			background: #ffffff;
+			padding: 2rem;
+			border-radius: 8px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+
+		header h1 {
+			font-size: 2.5rem;
+			color: #003333;
+			margin-bottom: 0.5rem;
+		}
+
+		header p {
+			color: #606060;
+			font-size: 1rem;
+			margin-bottom: 1.5rem;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+			gap: 1rem;
+		}
+
+		label {
+			font-size: 1rem;
+			color: #003333;
+		}
+
+		input[type='file'] {
+			padding: 10px;
+			border: 1px solid #c0c0c0;
+			border-radius: 5px;
+		}
+
+		input[type='submit'] {
+			font-size: 1.2rem;
+			padding: 10px 20px;
+			border: none;
+			background-color: #003333;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		input[type='submit']:hover {
+			background-color: #005555;
+		}
+
+		.radio-group {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.radio-group input[type="radio"] {
+			cursor: pointer;
+		}
+
+		main {
+			margin-top: 2rem;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.pair {
+			display: flex;
+			align-items: center;
+			border: 1px solid #c0c0c0;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.color-box {
+			width: 20%; /* Smaller width for the color box */
+			height: 50px;
+		}
+
+		.color-box-value {
+			width: 80%; /* Larger width for the text area */
+			padding: 0.5rem 1rem;
+			text-align: left;
+			font-size: 1rem;
+			color: #003333;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="card">
+		<header>
+			<h1>Image Colour Palette Generator</h1>
+			<p>Upload an image and discover the top 10 colors used in it, with hex or RGB codes.</p>
+		</header>
+		<form action="/" method="POST" enctype="multipart/form-data">
+			<label for="file-upload">Choose an Image:</label>
+			<input type="file" id="file-upload" name="file" required />
+			<div class="radio-group">
+				<label>Select Colour Code:</label>
+				<input type="radio" id="rgb" name="colour_code" value="rgb" required />
+				<label for="rgb">RGB</label>
+				<input type="radio" id="hex" name="colour_code" value="hex" required />
+				<label for="hex">Hex</label>
+			</div>
+			<input type="submit" value="Generate Palette" />
+		</form>
+		<main>
+			{% for i in range(colors_list|length) %}
+				<div class="pair">
+					{% if code != 'hex' %}
+						<div class="color-box" style="background-color: rgb{{ colors_list[i] }};"></div>
+						<div class="color-box-value">#{{i+1}}: rgb{{ colors_list[i] }}</div>
+					{% else %}
+						<div class="color-box" style="background-color: #{{ colors_list[i] }};"></div>
+						<div class="color-box-value">#{{i+1}}: #{{ colors_list[i] }}</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</main>
+	</div>
+</body>
+</html>
